@@ -10,17 +10,12 @@ def generate_launch_description():
             package='gscam2',
             executable='gscam_main',
             output='screen',
-            remappings=[
-                ('/image_raw', '/my_camera/image_raw')
-            ],
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10000 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1080,height=(string)960,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
-                {'preroll': False},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10000 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},                {'preroll': False},
                 {'use_gst_timestamps': True},
-                {'camera_name': 'my_camera1'},
                 {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/my_camera1.ini'},
-                {'sync_sink': False},
+                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera1_info.yaml'},
+                # {'sync_sink': False},
                 ],
             ),
     ]
@@ -29,17 +24,13 @@ def generate_launch_description():
             package='gscam2',
             executable='gscam_main',
             output='screen',
-            remappings=[
-                ('/image_raw', '/my_camera/image_raw')
-            ],
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10001 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1080,height=(string)960,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10001 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
-                {'camera_name': 'my_camera2'},
                 {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/my_camera1.ini'},
-                {'sync_sink': False},
+                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera2_info.yaml'},
+                # {'sync_sink': False},
                 ],
             ),
     ]
@@ -48,17 +39,13 @@ def generate_launch_description():
             package='gscam2',
             executable='gscam_main',
             output='screen',
-            remappings=[
-                ('/image_raw', '/my_camera/image_raw')
-            ],
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10002 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1080,height=(string)960,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10003 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
-                {'camera_name': 'my_camera3'},
                 {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/my_camera1.ini'},
-                {'sync_sink': False},
+                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera3_info.yaml'},
+                # {'sync_sink': False},
                 ],
             ),
     ]
@@ -67,57 +54,15 @@ def generate_launch_description():
             package='gscam2',
             executable='gscam_main',
             output='screen',
-            remappings=[
-                ('/image_raw', '/my_camera/image_raw')
-            ],
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10003 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1080,height=(string)960,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10005 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
-                {'camera_name': 'my_camera4'},
                 {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/my_camera1.ini'},
-                {'sync_sink': False},
-                ],
-            ),
-    ]
-    node_5 = [Node(
-            namespace='camera5',
-            package='gscam2',
-            executable='gscam_main',
-            output='screen',
-            remappings=[
-                ('/image_raw', '/my_camera/image_raw')
-            ],
-            parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10004 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1080,height=(string)960,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
-                {'preroll': False},
-                {'use_gst_timestamps': True},
-                {'camera_name': 'my_camera5'},
-                {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/my_camera1.ini'},
-                {'sync_sink': False},
-                ],
-            ),
-    ]
-    node_6 = [Node(
-            namespace='camera6',
-            package='gscam2',
-            executable='gscam_main',
-            output='screen',
-            remappings=[
-                ('/image_raw', '/my_camera/image_raw')
-            ],
-            parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10005 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1080,height=(string)960,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
-                {'preroll': False},
-                {'use_gst_timestamps': True},
-                {'camera_name': 'my_camera6'},
-                {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/my_camera1.ini'},
-                {'sync_sink': False},
+                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera4_info.yaml'},
+                # {'sync_sink': False},
                 ],
             ),
     ]
 
-    return LaunchDescription(node_1 + node_2 + node_3 + node_4 + node_5 + node_6)
+    return LaunchDescription(node_1 + node_2 + node_3 + node_4)
