@@ -11,10 +11,11 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10000 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},                {'preroll': False},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10002 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},                
+                {'preroll': False},
                 {'use_gst_timestamps': True},
                 {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera1_info.yaml'},
+                {'camera_info_url': 'file:///home/leo/workspaces/gscam2_ws/src/gscam2/cfg/camera1_info.yaml'},
                 # {'sync_sink': False},
                 ],
             ),
@@ -25,12 +26,12 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10001 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10003 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
                 {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera2_info.yaml'},
-                # {'sync_sink': False},
+                {'camera_info_url': 'file:///home/leo/workspaces/gscam2_ws/src/gscam2/cfg/camera2_info.yaml'},
+                {'sync_sink': True},
                 ],
             ),
     ]
@@ -40,12 +41,12 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10003 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10004 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
-                {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera3_info.yaml'},
-                # {'sync_sink': False},
+                {'frame_id': 'camera3/camera_link'},
+                {'camera_info_url': 'file:///home/leo/workspaces/gscam2_ws/src/gscam2/cfg/camera3_info.yaml'},
+                {'sync_sink': True},
                 ],
             ),
     ]
@@ -55,14 +56,14 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10005 caps = "application/x-rtp,media=(string)video,clock-rate=(int)90000,encoding-name=(string)RAW,sampling=(string)YCbCr-4:2:2,depth=(string)8,width=(string)1920,height=(string)1080,colorimetry=(string)BT601-5,payload=(int)96,a-framerate=(string)60" ! rtpvrawdepay ! videoconvert'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10005 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
                 {'frame_id': 'my_camera_frame'},
-                {'camera_info_url': 'file:///home/rgs8805/projects/gscam2_ws/src/gscam2/cfg/camera4_info.yaml'},
-                # {'sync_sink': False},
+                {'camera_info_url': 'file:///home/leo/workspaces/gscam2_ws/src/gscam2/cfg/camera4_info.yaml'},
+                {'sync_sink': True},
                 ],
             ),
     ]
 
-    return LaunchDescription(node_1 + node_2 + node_3 + node_4)
+    return LaunchDescription( node_3 )
