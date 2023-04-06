@@ -11,7 +11,7 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10002 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},                
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10000 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},                
                 {'preroll': False},
                 {'use_gst_timestamps': True},
                 {'frame_id': 'my_camera_frame'},
@@ -26,7 +26,7 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10003 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10001 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
                 {'frame_id': 'my_camera_frame'},
@@ -41,11 +41,11 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10004 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10002 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
                 {'frame_id': 'camera3/camera_link'},
-                {'camera_info_url': 'file:///home/leo/workspaces/gscam2_ws/src/gscam2/cfg/camera3_info.yaml'},
+                {'camera_info_url': 'file:///home/robione/projects/robione/src/sensor_component/external/gscam2/cfg/camera3_info.yaml'},
                 {'sync_sink': True},
                 ],
             ),
@@ -56,7 +56,7 @@ def generate_launch_description():
             executable='gscam_main',
             output='screen',
             parameters=[
-                {'gscam_config':'udpsrc buffer_size=9216000 port=10005 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
+                {'gscam_config':'udpsrc buffer_size=9216000 port=10003 caps ="application/x-rtp, media=(string)video, encoding-name=(string)H264, clock-rate=(int)90000, packetization-mode=(int)1, payload=(int)96, a-framerate=(string)60" ! rtpjitterbuffer ! rtph264depay ! h264parse ! nvv4l2decoder ! nvvideoconvert ! videoflip method=rotate-180'},
                 {'preroll': False},
                 {'use_gst_timestamps': True},
                 {'frame_id': 'my_camera_frame'},
