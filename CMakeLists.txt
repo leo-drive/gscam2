@@ -62,9 +62,9 @@ target_link_libraries(gscam_node
     class_loader::class_loader
     rclcpp_components::component
     ros2_shared::ros2_shared
-    sensor_msgs::sensor_msgs_library
   PUBLIC
     rclcpp::rclcpp
+    sensor_msgs::sensor_msgs_library
     PkgConfig::GSTREAMER
     PkgConfig::GST_APP)
 

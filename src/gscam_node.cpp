@@ -27,7 +27,8 @@ namespace gscam2
   CXT_MACRO_MEMBER(image_encoding, std::string, sensor_msgs::image_encodings::RGB8) /*   */ \
   CXT_MACRO_MEMBER(camera_info_url, std::string, "")        /* Location of camera info file  */ \
   CXT_MACRO_MEMBER(camera_name, std::string, "")            /* Camera name  */ \
-  CXT_MACRO_MEMBER(frame_id, std::string, "camera_frame")   /* Camera frame id  */ \
+  CXT_MACRO_MEMBER(frame_id, std::string, "camera_frame")   /* Camera frame id  */        \
+  CXT_MACRO_MEMBER(camera_fps, int, 15)                                 \
   /* End of list */
 
 #undef CXT_MACRO_MEMBER
@@ -46,6 +47,12 @@ class GSCamNode::impl
 {
   // ROS node
   rclcpp::Node * node_;
+
+  // Camera msg
+  std::unique_ptr<sensor_msgs::msg::Image> img_msg_;
+
+  // Camera Info msg
+  std::unique_ptr<sensor_msgs::msg::CameraInfo> cinfo_msg_;
 
   // Manage camera info
   camera_info_manager::CameraInfoManager camera_info_manager_;
@@ -117,6 +124,8 @@ public:
 
   // Start or re-start pipeline
   void restart();
+  // Publish camera data
+  void publish_frame();
 };
 
 bool GSCamNode::impl::create_pipeline()
@@ -343,23 +352,22 @@ void GSCamNode::impl::process_frame()
   gst_structure_get_int(structure, "height", &height_);
 
   // Update header information
-  camera_info_manager::CameraInfo cur_cinfo = camera_info_manager_.getCameraInfo();
-  auto cinfo = std::make_unique<sensor_msgs::msg::CameraInfo>(cur_cinfo);
+  *cinfo_msg_ = camera_info_manager_.getCameraInfo();
   if (cxt_.use_gst_timestamps_) {
-    cinfo->header.stamp = rclcpp::Time(static_cast<int64_t>(buf->pts + bt + time_offset_));
+    cinfo_msg_->header.stamp = rclcpp::Time(static_cast<int64_t>(buf->pts + bt + time_offset_));
   } else {
-    cinfo->header.stamp = node_->now();
+    cinfo_msg_->header.stamp = node_->now();
   }
   // RCLCPP_INFO(get_logger(), "Image time stamp: %.3f",cinfo->header.stamp.toSec());
-  cinfo->header.frame_id = cxt_.frame_id_;
+  cinfo_msg_->header.frame_id = cxt_.frame_id_;
   if (cxt_.image_encoding_ == "jpeg") {
     auto img = std::make_unique<sensor_msgs::msg::CompressedImage>();
-    img->header = cinfo->header;
+    img->header = cinfo_msg_->header;
     img->format = "jpeg";
     img->data.resize(buf_size);
     std::copy(buf_data, (buf_data) + (buf_size), img->data.begin());
     jpeg_pub_->publish(std::move(img));
-    cinfo_pub_->publish(std::move(cinfo));
+    cinfo_pub_->publish(std::move(cinfo_msg_));
   } else {
     // Complain if the returned buffer is smaller than we expect
     const unsigned int expected_frame_size = width_ * height_ *
@@ -373,23 +381,22 @@ void GSCamNode::impl::process_frame()
     }
 
     // Construct Image message
-    auto img = std::make_unique<sensor_msgs::msg::Image>();
 
-    img->header = cinfo->header;
+    img_msg_->header = cinfo_msg_->header;
 
     // Image data and metadata
-    img->width = width_;
-    img->height = height_;
-    img->encoding = cxt_.image_encoding_;
-    img->is_bigendian = false;
-    img->data.resize(expected_frame_size);
+    img_msg_->width = width_;
+    img_msg_->height = height_;
+    img_msg_->encoding = cxt_.image_encoding_;
+    img_msg_->is_bigendian = false;
+    img_msg_->data.resize(expected_frame_size);
 
     // Copy the image, so we can free the buffer allocated by gstreamer
-    img->step = width_ * bytes_per_pixel(cxt_.image_encoding_);
+    img_msg_->step = width_ * bytes_per_pixel(cxt_.image_encoding_);
     std::copy(
       buf_data,
       (buf_data) + (buf_size),
-      img->data.begin());
+      img_msg_->data.begin());
 
 #undef SHOW_ADDRESS
 #ifdef SHOW_ADDRESS
@@ -399,9 +406,6 @@ void GSCamNode::impl::process_frame()
       reinterpret_cast<std::uintptr_t>(img.get()));
 #endif
 
-    // Publish the image/info
-    camera_pub_->publish(std::move(img));
-    cinfo_pub_->publish(std::move(cinfo));
   }
 
   // Release the buffer
@@ -409,6 +413,13 @@ void GSCamNode::impl::process_frame()
   gst_memory_unref(memory);
   gst_sample_unref(sample);
 }
+
+void GSCamNode::impl::publish_frame()
+{
+  camera_pub_->publish(std::move(img_msg_));
+  cinfo_pub_->publish(std::move(cinfo_msg_));
+}
+
 
 void GSCamNode::impl::restart()
 {
@@ -486,6 +497,9 @@ GSCamNode::GSCamNode(const rclcpp::NodeOptions & options)
   pImpl_(std::make_unique<GSCamNode::impl>(this))
 {
   RCLCPP_INFO(get_logger(), "use_intra_process_comms=%d", options.use_intra_process_comms());
+  auto data_sender = rclcpp::create_timer(
+    this, get_clock(), rclcpp::Rate(pImpl_->cxt_.camera_fps_).period(), std::bind(&GSCamNode::camera_publisher, this));
+
 
   // Declare and get parameters, this will call validate_parameters()
 #undef CXT_MACRO_MEMBER
@@ -514,6 +528,11 @@ void GSCamNode::validate_parameters()
   GSCAM_ALL_PARAMS
 
   pImpl_->restart();
+}
+
+void GSCamNode::camera_publisher()
+{
+  pImpl_->publish_frame();
 }
 
 } // namespace gscam2
