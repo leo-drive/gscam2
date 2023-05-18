@@ -13,9 +13,11 @@ class GSCamNode : public rclcpp::Node
   std::unique_ptr<impl> pImpl_;
 
   void validate_parameters();
+  void camera_publisher();
 
 public:
   explicit GSCamNode(const rclcpp::NodeOptions & options);
+  rclcpp::TimerBase::SharedPtr timer_;
 
   ~GSCamNode() override;
 };
